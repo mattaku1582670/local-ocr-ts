@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-08-07",
+  "dataset": "synthetic-v1",
+  "python": {
+    "pythonVersion": "3.13.13",
+    "paddleocrVersion": "3.7.0",
+    "paddlepaddleVersion": "3.3.1",
+    "models": ["PP-OCRv5_mobile_det", "PP-OCRv5_mobile_rec"],
+    "cpuThreads": 8,
+    "enableMkldnn": false,
+    "initializationMs": 4520.264999999199,
+    "cer": 0.064567876478845,
+    "strictCer": 0.09450375642546462,
+    "horizontalOnlyCer": 0.0466652901094363,
+    "horizontalOnlyStrictCer": 0.07773707773707773,
+    "meanDurationMs": 5564.970046000672,
+    "medianDurationMs": 4764.774449999095,
+    "peakWorkingSetBytes": 1117720576,
+    "modelCacheBytes": 21748351,
+    "venvBytes": 850549913,
+    "failedCount": 0
+  },
+  "browser": {
+    "cer": 0.06597152596751554,
+    "strictCer": 0.09568999604586793,
+    "horizontalOnlyCer": 0.04811067520132149,
+    "horizontalOnlyStrictCer": 0.07895807895807896,
+    "meanDurationMs": 3326.199567999999,
+    "ocrAssetBytes": 101317136,
+    "failedCount": 0
+  },
+  "comparison": {
+    "cerPercentagePointDeltaPythonMinusBrowser": -0.140364948867054,
+    "strictCerPercentagePointDeltaPythonMinusBrowser": -0.118623962040332,
+    "durationRatioPythonOverBrowser": 1.67307160386255,
+    "pythonSlowerPercent": 67.3071603862548
+  },
+  "limitations": [
+    "Synthetic baseline only.",
+    "The Python virtual environment is an unoptimized development footprint, not a packaged sidecar size.",
+    "Python peak working set covers the OCR process only; a Gate B product also requires Electron processes.",
+    "Real screenshots and photographed documents remain required before final release approval."
+  ]
+}

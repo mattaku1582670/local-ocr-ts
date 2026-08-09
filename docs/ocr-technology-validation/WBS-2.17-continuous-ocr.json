@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-08-07T02:34:48.406Z",
+  "host": {
+    "cpu": "AMD Ryzen 5 7530U with Radeon Graphics",
+    "logicalCpuCount": 12,
+    "release": "10.0.26200",
+    "totalMemoryMiB": 15681.07
+  },
+  "image": {
+    "count": 20,
+    "format": "image/png",
+    "height": 1080,
+    "uniqueSequenceLabels": true,
+    "width": 1920
+  },
+  "initialMemory": {
+    "privateMiB": 447.93,
+    "processCount": 5,
+    "workingSetMiB": 568.65
+  },
+  "runs": [
+    { "run": 1, "wallTimeMs": 11081.64, "engineDurationMs": 6504.2, "afterWorkingSetMiB": 1241.39, "peakWorkingSetMiB": 1382.61, "peakPrivateMiB": 1473.14 },
+    { "run": 2, "wallTimeMs": 5885.17, "engineDurationMs": 5723.8, "afterWorkingSetMiB": 1224.5, "peakWorkingSetMiB": 1331.13, "peakPrivateMiB": 1376.94 },
+    { "run": 3, "wallTimeMs": 5363.66, "engineDurationMs": 5244.3, "afterWorkingSetMiB": 1230.41, "peakWorkingSetMiB": 1304.3, "peakPrivateMiB": 1351.45 },
+    { "run": 4, "wallTimeMs": 5018.14, "engineDurationMs": 4915.3, "afterWorkingSetMiB": 1221.29, "peakWorkingSetMiB": 1309.65, "peakPrivateMiB": 1356.5 },
+    { "run": 5, "wallTimeMs": 4909.17, "engineDurationMs": 4705.6, "afterWorkingSetMiB": 1217.98, "peakWorkingSetMiB": 1298.5, "peakPrivateMiB": 1344.53 },
+    { "run": 6, "wallTimeMs": 6312.57, "engineDurationMs": 6072.5, "afterWorkingSetMiB": 1225.12, "peakWorkingSetMiB": 1304.51, "peakPrivateMiB": 1351.78 },
+    { "run": 7, "wallTimeMs": 6132.75, "engineDurationMs": 5942.2, "afterWorkingSetMiB": 1293.75, "peakWorkingSetMiB": 1324.4, "peakPrivateMiB": 1373.71 },
+    { "run": 8, "wallTimeMs": 5112.29, "engineDurationMs": 4932.7, "afterWorkingSetMiB": 1224.75, "peakWorkingSetMiB": 1327.32, "peakPrivateMiB": 1376.31 },
+    { "run": 9, "wallTimeMs": 5012.11, "engineDurationMs": 4886.7, "afterWorkingSetMiB": 1219.67, "peakWorkingSetMiB": 1305.58, "peakPrivateMiB": 1355.28 },
+    { "run": 10, "wallTimeMs": 5331.52, "engineDurationMs": 5170.5, "afterWorkingSetMiB": 1202.29, "peakWorkingSetMiB": 1299.73, "peakPrivateMiB": 1351.57 },
+    { "run": 11, "wallTimeMs": 4904.07, "engineDurationMs": 4804.1, "afterWorkingSetMiB": 1203.18, "peakWorkingSetMiB": 1286.4, "peakPrivateMiB": 1336.34 },
+    { "run": 12, "wallTimeMs": 4455.64, "engineDurationMs": 4315.3, "afterWorkingSetMiB": 1201.84, "peakWorkingSetMiB": 1287.55, "peakPrivateMiB": 1336.22 },
+    { "run": 13, "wallTimeMs": 4674.55, "engineDurationMs": 4497.3, "afterWorkingSetMiB": 1263.33, "peakWorkingSetMiB": 1290.72, "peakPrivateMiB": 1340.25 },
+    { "run": 14, "wallTimeMs": 4786.92, "engineDurationMs": 4628.6, "afterWorkingSetMiB": 1198.46, "peakWorkingSetMiB": 1278.05, "peakPrivateMiB": 1326.46 },
+    { "run": 15, "wallTimeMs": 5006.01, "engineDurationMs": 4857.6, "afterWorkingSetMiB": 1196.64, "peakWorkingSetMiB": 1286.92, "peakPrivateMiB": 1343.9 },
+    { "run": 16, "wallTimeMs": 4465.83, "engineDurationMs": 4316.5, "afterWorkingSetMiB": 1270.13, "peakWorkingSetMiB": 1283.77, "peakPrivateMiB": 1335.09 },
+    { "run": 17, "wallTimeMs": 4460.7, "engineDurationMs": 4302.1, "afterWorkingSetMiB": 1198.27, "peakWorkingSetMiB": 1273.27, "peakPrivateMiB": 1325.16 },
+    { "run": 18, "wallTimeMs": 4260.61, "engineDurationMs": 4150.4, "afterWorkingSetMiB": 1203.34, "peakWorkingSetMiB": 1285.07, "peakPrivateMiB": 1338.15 },
+    { "run": 19, "wallTimeMs": 4567.05, "engineDurationMs": 4464.8, "afterWorkingSetMiB": 1199, "peakWorkingSetMiB": 1281.16, "peakPrivateMiB": 1333.33 },
+    { "run": 20, "wallTimeMs": 4904.95, "engineDurationMs": 4799.3, "afterWorkingSetMiB": 1268.97, "peakWorkingSetMiB": 1305.72, "peakPrivateMiB": 1358.11 }
+  ],
+  "summary": {
+    "completedCount": 20,
+    "crashed": false,
+    "engineDurationMedianMs": 4857.6,
+    "externalRequestCount": 0,
+    "failedRequestCount": 0,
+    "finalMinusFirstPrivateMiB": 33.97,
+    "finalMinusFirstWorkingSetMiB": 27.57,
+    "pageErrorCount": 0,
+    "peakPrivateMiB": 1473.14,
+    "peakWorkingSetMiB": 1382.61,
+    "settledMemory": {
+      "privateMiB": 1320.09,
+      "processCount": 5,
+      "workingSetMiB": 1268.96
+    },
+    "wallTimeMaximumMs": 11081.64,
+    "wallTimeMedianMs": 5006.01,
+    "workerCountObserved": 1
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-08-07",
+  "dataset": "synthetic-v1",
+  "summary": {
+    "count": 50,
+    "failedCount": 0,
+    "cer": 0.06597152596751554,
+    "strictCer": 0.09568999604586793,
+    "horizontalOnlyCount": 44,
+    "horizontalOnlyCer": 0.04811067520132149,
+    "horizontalOnlyStrictCer": 0.07895807895807896,
+    "meanDurationMs": 3326.199567999999
+  },
+  "categories": [
+    { "category": "windows-ui", "count": 7, "failedCount": 0, "cer": 0.19104991394148021, "strictCer": 0.22824302134646962, "meanDurationMs": 3019.3339714285717 },
+    { "category": "japanese-document", "count": 7, "failedCount": 0, "cer": 0.03506493506493506, "strictCer": 0.043758043758043756, "meanDurationMs": 4923.334728571428 },
+    { "category": "photographed-document", "count": 6, "failedCount": 0, "cer": 0.03424657534246575, "strictCer": 0.0472972972972973, "meanDurationMs": 2476.9948499999978 },
+    { "category": "small-text", "count": 6, "failedCount": 0, "cer": 0.011235955056179775, "strictCer": 0.011235955056179775, "meanDurationMs": 4181.346216666665 },
+    { "category": "mixed-alphanumeric", "count": 6, "failedCount": 0, "cer": 0.044585987261146494, "strictCer": 0.07407407407407407, "meanDurationMs": 3079.3684000000017 },
+    { "category": "table", "count": 6, "failedCount": 0, "cer": 0.037698412698412696, "strictCer": 0.20436507936507936, "meanDurationMs": 3933.883283333334 },
+    { "category": "vertical-reference", "count": 6, "failedCount": 0, "cer": 0.6666666666666666, "strictCer": 0.6666666666666666, "meanDurationMs": 1751.5823666666645 },
+    { "category": "low-contrast", "count": 6, "failedCount": 0, "cer": 0.012962962962962963, "strictCer": 0.012962962962962963, "meanDurationMs": 3028.7077999999988 }
+  ],
+  "limitations": [
+    "Synthetic baseline only.",
+    "Real screenshots and photographed documents remain required before final Gate approval."
+  ]
+}

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+dist-electron/
+release/
+playwright-report/
+test-results/
+evaluation/generated/
+public/assets/models/
+public/assets/wasm/
+public/assets/.asset-integrity.json

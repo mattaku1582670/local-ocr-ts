@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-08-07T02:19:06.785Z",
+  "host": {
+    "cpu": "AMD Ryzen 5 7530U with Radeon Graphics",
+    "logicalCpuCount": 12,
+    "platform": "win32",
+    "release": "10.0.26200",
+    "totalMemoryMiB": 15681.07
+  },
+  "image": {
+    "bytes": 189819,
+    "format": "image/png",
+    "height": 1080,
+    "width": 1920
+  },
+  "initialMemory": {
+    "privateMiB": 486.44,
+    "processCount": 5,
+    "workingSetMiB": 530.34
+  },
+  "coldRun": {
+    "blockCount": 13,
+    "engineDurationMs": 8889.1,
+    "memory": {
+      "peakPrivateMiB": 1489.87,
+      "peakWorkingSetMiB": 1356.54,
+      "processCountMaximum": 5
+    },
+    "wallTimeMs": 16134.71
+  },
+  "warmRuns": [
+    {
+      "blockCount": 13,
+      "engineDurationMs": 5825.3,
+      "memory": {
+        "peakPrivateMiB": 1409.61,
+        "peakWorkingSetMiB": 1317.55,
+        "processCountMaximum": 5
+      },
+      "wallTimeMs": 6012.37
+    },
+    {
+      "blockCount": 13,
+      "engineDurationMs": 6012.3,
+      "memory": {
+        "peakPrivateMiB": 1368.17,
+        "peakWorkingSetMiB": 1279.05,
+        "processCountMaximum": 5
+      },
+      "wallTimeMs": 6115.09
+    },
+    {
+      "blockCount": 13,
+      "engineDurationMs": 6397.1,
+      "memory": {
+        "peakPrivateMiB": 1368.4,
+        "peakWorkingSetMiB": 1279.83,
+        "processCountMaximum": 5
+      },
+      "wallTimeMs": 6538.51
+    }
+  ],
+  "warmSummary": {
+    "engineDurationMedianMs": 6012.3,
+    "engineDurationMaximumMs": 6397.1,
+    "wallTimeMedianMs": 6115.09,
+    "wallTimeMaximumMs": 6538.51,
+    "withinDetailedRequirement10Seconds": true,
+    "withinDevelopmentPlan5Seconds": false
+  }
+}

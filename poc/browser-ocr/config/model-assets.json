@@ -1,0 +1,18 @@
+{
+  "models": [
+    {
+      "fileName": "PP-OCRv5_mobile_det_onnx_infer.tar",
+      "sha256": "781056046C9ED77A15C94681605DB6A0F62317C2E9CCE6931C71DA2478D4BC30",
+      "source": "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/PP-OCRv5_mobile_det_onnx_infer.tar"
+    },
+    {
+      "fileName": "PP-OCRv5_mobile_rec_onnx_infer.tar",
+      "sha256": "F7E792BC836F36E7EF895AD47C426D75B0B75B1650CAA6D63FE9418441FFBA8C",
+      "source": "https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0.0/PP-OCRv5_mobile_rec_onnx_infer.tar"
+    }
+  ],
+  "onnxRuntimeWeb": {
+    "version": "1.27.0",
+    "filePattern": "^ort-wasm.*\\.(mjs|wasm)$"
+  }
+}

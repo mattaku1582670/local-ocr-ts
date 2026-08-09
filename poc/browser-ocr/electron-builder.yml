@@ -1,0 +1,34 @@
+appId: local.ocr.poc
+productName: Local OCR
+asar: true
+compression: normal
+directories:
+  output: release
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+  - "!dist/assets/models/**/*"
+  - "!dist/assets/wasm/**/*"
+  - "!dist/assets/.asset-integrity.json"
+  - "!dist/**/*.map"
+  - "!dist-electron/**/*.map"
+extraResources:
+  - from: public/assets/models
+    to: ocr-assets/models
+  - from: public/assets/wasm
+    to: ocr-assets/wasm
+  - from: public/assets/.asset-integrity.json
+    to: ocr-assets/.asset-integrity.json
+win:
+  target:
+    - target: portable
+      arch:
+        - x64
+  executableName: LocalOCR
+  requestedExecutionLevel: asInvoker
+  signExecutable: false
+portable:
+  requestExecutionLevel: user
+  unpackDirName: false
+artifactName: "${productName}-${version}-${arch}-portable.${ext}"

@@ -1,0 +1,37 @@
+# Dependencies and language environments
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Build and test output
+dist/
+dist-electron/
+release/
+coverage/
+playwright-report/
+test-results/
+
+# Local OCR runtime assets are staged from documented upstream sources.
+# Do not commit downloaded models, WASM binaries, or generated evaluation data.
+public/assets/models/
+public/assets/wasm/
+public/assets/.asset-integrity.json
+models/
+results/
+evaluation/generated/
+
+# Local configuration and logs
+.env
+.env.*
+!.env.example
+data/
+logs/
+*.log
+
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+Desktop.ini
