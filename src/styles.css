@@ -12,7 +12,7 @@
 
 body {
   margin: 0;
-  min-width: 900px;
+  min-width: 1024px;
   min-height: 100vh;
 }
 
@@ -31,7 +31,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .app-header h1,
@@ -55,7 +55,31 @@ textarea {
   display: grid;
   grid-template-columns: minmax(190px, 0.8fr) minmax(360px, 2fr) minmax(260px, 1.2fr);
   gap: 16px;
-  min-height: calc(100vh - 108px);
+  min-height: calc(100vh - 194px);
+}
+
+.app-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 52px;
+  margin-bottom: 12px;
+  padding: 8px;
+  overflow-x: auto;
+  border: 1px solid #d9e0eb;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.app-toolbar button {
+  flex: 0 0 auto;
+}
+
+.toolbar-separator {
+  width: 1px;
+  height: 28px;
+  margin: 0 2px;
+  background: #d9e0eb;
 }
 
 .panel {
@@ -81,8 +105,58 @@ textarea {
   background: #f8fafc;
 }
 
-.result-panel output {
-  display: block;
-  margin-top: 12px;
+.image-drop-zone {
+  display: grid;
+  min-height: 420px;
+  place-content: center;
+  gap: 10px;
+  padding: 32px;
+  border: 2px dashed #8ca0bd;
+  border-radius: 12px;
   color: #526077;
+  text-align: center;
+  background: #f8fafc;
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease,
+    transform 120ms ease;
+}
+
+.image-drop-zone strong {
+  color: #243a5a;
+  font-size: 20px;
+}
+
+.image-drop-zone.is-dragging {
+  border-color: #3563a9;
+  background: #eaf2ff;
+  transform: scale(1.005);
+}
+
+.image-drop-zone:focus-visible {
+  outline: 3px solid #3563a9;
+  outline-offset: 3px;
+}
+
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 34px;
+  margin-top: 12px;
+  padding: 7px 12px;
+  border: 1px solid #d9e0eb;
+  border-radius: 10px;
+  color: #526077;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.input-notice.warning {
+  color: #92400e;
+}
+
+.input-notice.success {
+  color: #166534;
 }

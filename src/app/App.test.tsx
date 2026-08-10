@@ -21,15 +21,29 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: "画像一覧（0）" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "画像プレビュー" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "OCR結果" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "画像をドロップまたは選択" })).toBeInTheDocument();
   });
 
-  it("shows the settings synchronization state", () => {
+  it("shows the required toolbar actions and settings synchronization state", () => {
     render(
       <AppProviders>
         <App />
       </AppProviders>,
     );
 
+    for (const name of [
+      "画像を開く",
+      "貼り付け",
+      "OCR実行",
+      "選択範囲OCR",
+      "すべてOCR",
+      "キャンセル",
+      "コピー",
+      "保存",
+      "設定",
+    ]) {
+      expect(screen.getByRole("button", { name })).toBeInTheDocument();
+    }
     expect(screen.getByText("設定同期: idle")).toBeInTheDocument();
   });
 });

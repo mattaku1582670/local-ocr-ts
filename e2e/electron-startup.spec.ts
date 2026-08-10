@@ -13,6 +13,10 @@ test("secure Electron shell starts the renderer", async () => {
     const page = await application.firstWindow();
     await expect(page).toHaveTitle("Local OCR");
     await expect(page.getByRole("heading", { name: "Local OCR" })).toBeVisible();
+    await expect(page.getByRole("navigation", { name: "OCR操作" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "画像を開く" })).toBeEnabled();
+    await expect(page.getByRole("button", { name: "貼り付け" })).toBeEnabled();
+    await expect(page.getByRole("button", { name: "画像をドロップまたは選択" })).toBeVisible();
 
     const securityState = await page.evaluate(() => ({
       hasNodeRequire: Object.hasOwn(globalThis, "require"),
