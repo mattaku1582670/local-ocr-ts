@@ -2,6 +2,7 @@ import { BrowserWindow } from "electron";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { configureWebContentsSecurity } from "./security.js";
+import { APPLICATION_URL } from "./appProtocol.js";
 import type { WindowState } from "./services/windowStateService.js";
 
 const currentDirectory = fileURLToPath(new URL(".", import.meta.url));
@@ -69,7 +70,7 @@ export const createMainWindow: MainWindowFactory = (options = {}) => {
   if (developmentUrl) {
     void mainWindow.loadURL(developmentUrl);
   } else {
-    void mainWindow.loadFile(join(currentDirectory, "../../dist/index.html"));
+    void mainWindow.loadURL(APPLICATION_URL);
   }
 
   return mainWindow;

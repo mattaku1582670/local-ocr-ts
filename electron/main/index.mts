@@ -1,5 +1,7 @@
 import { app } from "electron";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { registerApplicationProtocol, registerApplicationScheme } from "./appProtocol.js";
 import { createMainWindow } from "./createWindow.js";
 import { registerIpc } from "./ipc/registerIpc.js";
 import { createRuntimePathContext, resolveDataDirectory } from "./portablePaths.js";
@@ -13,6 +15,11 @@ interface RuntimeServices {
 }
 
 let runtimeServices: RuntimeServices | undefined;
+const currentDirectory = fileURLToPath(new URL(".", import.meta.url));
+const rendererDirectory = join(currentDirectory, "../../dist");
+
+registerApplicationScheme();
+app.commandLine.appendSwitch("disable-background-networking");
 
 async function openMainWindow(): Promise<void> {
   if (!runtimeServices) throw new Error("Runtime services are not initialized");
@@ -26,6 +33,7 @@ async function openMainWindow(): Promise<void> {
 }
 
 async function bootstrap(): Promise<void> {
+  registerApplicationProtocol(rendererDirectory);
   const dataDirectory = await resolveDataDirectory(createRuntimePathContext(app));
   const settingsService = new SettingsService(dataDirectory.path);
   const loadedSettings = await settingsService.load();

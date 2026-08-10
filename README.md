@@ -1,6 +1,6 @@
 # Local OCR
 
-Windows向けの、完全オフラインで動作するポータブルOCRアプリです。製品実装ではGate AとしてPaddleOCR.js + ONNX Runtime Web / WASMを採用します。現在はElectron・Reactの開発基盤まで実装済みで、OCR機能は技術検証PoCから製品コードへ段階的に移行します。
+Windows向けの、完全オフラインで動作するポータブルOCRアプリです。製品実装ではGate AとしてPaddleOCR.js + ONNX Runtime Web / WASMを採用し、専用Worker上でOCRを実行します。
 
 ## 必要環境
 
@@ -12,7 +12,10 @@ Windows向けの、完全オフラインで動作するポータブルOCRアプ�
 
 ```powershell
 npm.cmd ci
+npm.cmd run stage:ocr-assets
 ```
+
+`stage:ocr-assets`の前に、Gate Aで固定した2つのPP-OCRv5モデルarchiveを`models/`へ配置してください。モデルは既知のSHA-256と照合され、ONNX Runtime WebのWASMとともにignoredの`public/assets/`へコピーされます。binaryはGitへcommitしません。
 
 PowerShellの実行ポリシーで`npm.ps1`が拒否される環境では、上記のように`npm.cmd`を使用してください。
 

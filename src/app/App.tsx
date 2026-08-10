@@ -7,12 +7,14 @@ import { useImageInput } from "../features/image-input/useImageInput";
 import { ImageList } from "../features/image-list/ImageList";
 import { ImagePreview } from "../features/image-preview/ImagePreview";
 import { selectSelectedImage, useImageStore } from "../store/useImageStore";
+import { useOcrStore } from "../store/useOcrStore";
 import { useSettingsStore } from "../store/useSettingsStore";
 
 export function App() {
   const imageCount = useImageStore((state) => state.items.length);
   const selectedImage = useImageStore(selectSelectedImage);
   const settingsStatus = useSettingsStore((state) => state.status);
+  const engineStatus = useOcrStore((state) => state.engineStatus);
   const { busy, dropFiles, notice, openImages, pasteImage } = useImageInput();
   const [blockSelection, setBlockSelection] = useState<{
     blockId: string | null;
@@ -93,6 +95,7 @@ export function App() {
         <output className={`input-notice ${notice?.tone ?? "info"}`} aria-live="polite">
           {busy ? "画像を読み込んでいます…" : (notice?.message ?? "画像を追加してください。")}
         </output>
+        <span>OCRエンジン: {engineStatus}</span>
         <span>設定同期: {settingsStatus}</span>
       </footer>
     </main>

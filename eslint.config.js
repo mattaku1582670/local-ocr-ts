@@ -6,7 +6,17 @@ import tseslint from "typescript-eslint";
 const typeScriptFiles = ["**/*.{ts,tsx,mts,cts}"];
 
 export default tseslint.config(
-  { ignores: ["dist", "dist-electron", "release", "coverage", "poc"] },
+  {
+    ignores: [
+      "dist",
+      "dist-electron",
+      "release",
+      "coverage",
+      "poc",
+      "public/assets/models",
+      "public/assets/wasm",
+    ],
+  },
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked.map((config) => ({
     ...config,
