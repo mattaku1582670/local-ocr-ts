@@ -1,0 +1,8 @@
+dist/
+dist-electron/
+release/
+coverage/
+node_modules/
+poc/
+docs/ocr-technology-validation/*.json
+package-lock.json

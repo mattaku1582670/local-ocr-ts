@@ -25,6 +25,8 @@ evaluation/generated/
 .env
 .env.*
 !.env.example
+!.env.development
+!.env.production
 data/
 logs/
 *.log

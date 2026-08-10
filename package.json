@@ -1,0 +1,60 @@
+{
+  "name": "local-ocr",
+  "version": "0.1.0",
+  "description": "Completely offline portable OCR application for Windows",
+  "author": "Local OCR Project",
+  "private": true,
+  "type": "module",
+  "main": "dist-electron/main/index.mjs",
+  "engines": {
+    "node": "24.14.0",
+    "npm": "11.9.0"
+  },
+  "packageManager": "npm@11.9.0",
+  "scripts": {
+    "dev": "npm run build:electron && concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .\"",
+    "build": "vite build && npm run build:electron",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write --no-error-on-unmatched-pattern \"src/**/*.{ts,tsx,css}\" \"electron/**/*.{ts,mts,cts}\" \"e2e/**/*.ts\" \"*.{json,js,ts,html,yml}\" \".github/**/*.yml\"",
+    "format:check": "prettier --check --no-error-on-unmatched-pattern \"src/**/*.{ts,tsx,css}\" \"electron/**/*.{ts,mts,cts}\" \"e2e/**/*.ts\" \"*.{json,js,ts,html,yml}\" \".github/**/*.yml\"",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.electron.json --noEmit",
+    "test": "vitest run",
+    "test:e2e": "npm run build && playwright test",
+    "start": "electron ."
+  },
+  "dependencies": {
+    "@heroui/react": "3.2.4",
+    "framer-motion": "13.0.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3",
+    "zustand": "5.0.14"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "1.62.1",
+    "@tailwindcss/vite": "4.3.3",
+    "@testing-library/jest-dom": "7.0.0",
+    "@testing-library/react": "16.3.2",
+    "@types/node": "26.2.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "6.0.5",
+    "concurrently": "10.0.4",
+    "cross-env": "10.1.0",
+    "electron": "43.3.0",
+    "electron-builder": "26.15.3",
+    "eslint": "10.8.1",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.3",
+    "jsdom": "29.1.1",
+    "prettier": "3.9.6",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.66.0",
+    "vite": "8.2.1",
+    "vitest": "4.1.10",
+    "wait-on": "9.1.0"
+  }
+}

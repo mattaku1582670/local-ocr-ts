@@ -1,0 +1,88 @@
+:root {
+  font-family: "Yu Gothic UI", "Meiryo UI", sans-serif;
+  color: #172033;
+  background: #eef2f8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 900px;
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.app-header h1,
+.panel h2,
+.eyebrow {
+  margin: 0;
+}
+
+.app-header h1 {
+  font-size: 28px;
+}
+
+.eyebrow {
+  color: #3563a9;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.8fr) minmax(360px, 2fr) minmax(260px, 1.2fr);
+  gap: 16px;
+  min-height: calc(100vh - 108px);
+}
+
+.panel {
+  border: 1px solid #d9e0eb;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.panel h2 {
+  font-size: 16px;
+}
+
+.panel [data-slot="base"] {
+  align-self: flex-start;
+}
+
+.empty-preview {
+  display: grid;
+  min-height: 420px;
+  place-items: center;
+  border: 1px dashed #aab5c7;
+  border-radius: 12px;
+  color: #657087;
+  background: #f8fafc;
+}
+
+.result-panel output {
+  display: block;
+  margin-top: 12px;
+  color: #526077;
+}

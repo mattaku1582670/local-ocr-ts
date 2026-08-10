@@ -14,6 +14,14 @@
   - PM: 仕様・判断
   - SEC: セキュリティ確認
 
+## 現在の進捗
+
+- 最終更新: 2026-08-10
+- 採用方式: Gate A（PaddleOCR.js + ONNX Runtime Web / WASM）
+- 完了: WBS 2.20、3.1〜3.17、4.1〜4.13
+- 次回着手: WBS 5.1「portable実行パス検出を実装」
+- 継続リスク: A4 300dpiの速度・メモリ対策（DI-003）、実画像CER再評価（DI-004）、GitHub remote/push（DI-001）
+
 ---
 
 ## 0. マイルストーン
