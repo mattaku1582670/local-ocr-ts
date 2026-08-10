@@ -16,7 +16,7 @@ export default tseslint.config(
     files: typeScriptFiles,
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.json", "./tsconfig.electron.json"],
+        project: ["./tsconfig.json", "./tsconfig.electron.json", "./tsconfig.preload.json"],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -27,6 +27,12 @@ export default tseslint.config(
     rules: {
       ...reactHooks.configs.recommended.rules,
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+    },
+  },
+  {
+    files: ["electron/**/*.cts"],
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
     },
   },
 );

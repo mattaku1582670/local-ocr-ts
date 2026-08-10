@@ -3,17 +3,14 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "electron",
-    "outDir": "dist-electron",
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "sourceMap": false,
     "types": ["node"]
   },
-  "include": ["electron/**/*.ts", "electron/**/*.mts", "electron/**/*.cts"],
-  "exclude": ["electron/**/*.test.ts", "electron/preload/**"]
+  "include": ["electron/preload/**/*.cts", "electron/shared/**/*.cts"]
 }

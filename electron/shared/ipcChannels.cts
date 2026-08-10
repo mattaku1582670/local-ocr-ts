@@ -1,4 +1,4 @@
-export const IPC_CHANNELS = Object.freeze({
+const IPC_CHANNELS = Object.freeze({
   app: Object.freeze({
     getVersion: "app:get-version",
   }),
@@ -18,5 +18,4 @@ export const IPC_CHANNELS = Object.freeze({
   }),
 });
 
-type NestedValue<T> = T extends Record<string, infer Value> ? Value : never;
-export type IpcChannel = NestedValue<NestedValue<typeof IPC_CHANNELS>>;
+export = IPC_CHANNELS;

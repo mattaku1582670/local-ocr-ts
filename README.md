@@ -50,4 +50,18 @@ npm.cmd run test:e2e
 - OCRモデル、辞書、WASMをローカル同梱し、外部通信を使用しない
 - 原画像は変更せず、作業用データだけを処理
 
+## ローカルデータ
+
+保存先はportable EXEのディレクトリ、EXE隣接、Electron `userData`の順に書込可否を確認して選びます。開発時はプロジェクトの`data/`を使用します。
+
+```text
+data/
+├─ settings.json
+├─ window-state.json
+└─ logs/
+   └─ local-ocr.log
+```
+
+ログは自由文を受け付けず、許可されたイベント名と数値・環境メタデータだけを記録します。画像、OCR本文、ファイルパス、クリップボード内容は記録しません。
+
 開発・受入条件の詳細は`LocalOCR_詳細要件定義書.md`、設計は`LocalOCR_システム設計書.md`、実装順は`LocalOCR_WBS.md`を参照してください。

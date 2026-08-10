@@ -23,6 +23,7 @@
     "electron/**/*.test.ts",
     "vite.config.ts",
     "vitest.config.ts",
+    "vite.preload.config.ts",
     "playwright.config.ts"
   ]
 }

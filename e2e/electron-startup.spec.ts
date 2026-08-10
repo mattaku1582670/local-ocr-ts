@@ -32,6 +32,25 @@ test("secure Electron shell starts the renderer", async () => {
       .getAttribute("content");
     expect(csp).toContain("object-src 'none'");
     expect(csp).toContain("connect-src 'self'");
+
+    const settingsRoundTrip = await page.evaluate(async () => {
+      type SettingsValue = { autoOcrAfterPaste: boolean } & Record<string, unknown>;
+      const original = (await window.desktopApi.settings.load()) as SettingsValue;
+      const updated: SettingsValue = {
+        ...original,
+        autoOcrAfterPaste: !original.autoOcrAfterPaste,
+      };
+      const saved = (await window.desktopApi.settings.save(updated)) as SettingsValue;
+      const reloaded = (await window.desktopApi.settings.load()) as SettingsValue;
+      await window.desktopApi.settings.save(original);
+      return {
+        expected: updated.autoOcrAfterPaste,
+        saved: saved.autoOcrAfterPaste,
+        reloaded: reloaded.autoOcrAfterPaste,
+      };
+    });
+    expect(settingsRoundTrip.saved).toBe(settingsRoundTrip.expected);
+    expect(settingsRoundTrip.reloaded).toBe(settingsRoundTrip.expected);
   } finally {
     await application.close();
   }

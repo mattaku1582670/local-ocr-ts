@@ -2,22 +2,31 @@ import { BrowserWindow } from "electron";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { configureWebContentsSecurity } from "./security.js";
+import type { WindowState } from "./services/windowStateService.js";
 
 const currentDirectory = fileURLToPath(new URL(".", import.meta.url));
 let mainWindow: BrowserWindow | null = null;
 
 interface MainWindowFactory {
-  (): BrowserWindow;
+  (options?: MainWindowOptions): BrowserWindow;
   getCurrent: () => BrowserWindow | null;
 }
 
-export const createMainWindow: MainWindowFactory = () => {
+interface MainWindowOptions {
+  initialState?: WindowState;
+  saveState?: (state: WindowState) => Promise<void>;
+}
+
+export const createMainWindow: MainWindowFactory = (options = {}) => {
   if (mainWindow && !mainWindow.isDestroyed()) return mainWindow;
 
   const developmentUrl = process.env.VITE_DEV_SERVER_URL;
+  const initialState = options.initialState;
   mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 800,
+    ...(initialState?.x === undefined ? {} : { x: initialState.x }),
+    ...(initialState?.y === undefined ? {} : { y: initialState.y }),
+    width: initialState?.width ?? 1280,
+    height: initialState?.height ?? 800,
     minWidth: 900,
     minHeight: 600,
     show: false,
@@ -33,7 +42,26 @@ export const createMainWindow: MainWindowFactory = () => {
   });
 
   configureWebContentsSecurity(mainWindow.webContents);
+  if (initialState?.isMaximized) mainWindow.maximize();
   mainWindow.once("ready-to-show", () => mainWindow?.show());
+  let stateSaved = false;
+  mainWindow.on("close", (event) => {
+    if (!options.saveState || stateSaved || !mainWindow) return;
+    event.preventDefault();
+    const bounds = mainWindow.getNormalBounds();
+    const state: WindowState = {
+      version: 1,
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
+      isMaximized: mainWindow.isMaximized(),
+    };
+    void options.saveState(state).finally(() => {
+      stateSaved = true;
+      mainWindow?.destroy();
+    });
+  });
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
