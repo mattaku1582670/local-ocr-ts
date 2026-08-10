@@ -1,12 +1,14 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
-import { useAppStore } from "../store/useAppStore";
+import { initialImageStoreState, useImageStore } from "../store/useImageStore";
+import { initialSettingsStoreState, useSettingsStore } from "../store/useSettingsStore";
 import { App } from "./App";
 import { AppProviders } from "./providers";
 
 describe("App", () => {
   beforeEach(() => {
-    useAppStore.setState({ completedRuns: 0 });
+    useImageStore.setState({ ...initialImageStoreState });
+    useSettingsStore.setState({ ...initialSettingsStoreState });
   });
 
   it("renders the three-pane workspace", () => {
@@ -16,20 +18,18 @@ describe("App", () => {
       </AppProviders>,
     );
 
-    expect(screen.getByRole("heading", { name: "画像一覧" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "画像一覧（0）" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "画像プレビュー" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "OCR結果" })).toBeInTheDocument();
   });
 
-  it("updates Zustand state from the UI", () => {
+  it("shows the settings synchronization state", () => {
     render(
       <AppProviders>
         <App />
       </AppProviders>,
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Store動作確認" }));
-
-    expect(screen.getByText("完了回数: 1")).toBeInTheDocument();
+    expect(screen.getByText("設定同期: idle")).toBeInTheDocument();
   });
 });
