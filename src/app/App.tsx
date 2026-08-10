@@ -1,9 +1,11 @@
 import { Card, Chip } from "@heroui/react";
+import { useState } from "react";
 import { appEnvironment } from "../config/environment";
 import { ImageDropZone } from "../features/image-input/ImageDropZone";
 import { Toolbar } from "../features/image-input/Toolbar";
 import { useImageInput } from "../features/image-input/useImageInput";
 import { ImageList } from "../features/image-list/ImageList";
+import { ImagePreview } from "../features/image-preview/ImagePreview";
 import { selectSelectedImage, useImageStore } from "../store/useImageStore";
 import { useSettingsStore } from "../store/useSettingsStore";
 
@@ -12,6 +14,15 @@ export function App() {
   const selectedImage = useImageStore(selectSelectedImage);
   const settingsStatus = useSettingsStore((state) => state.status);
   const { busy, dropFiles, notice, openImages, pasteImage } = useImageInput();
+  const [blockSelection, setBlockSelection] = useState<{
+    blockId: string | null;
+    imageId: string | null;
+  }>({ blockId: null, imageId: null });
+  const selectedBlockId =
+    blockSelection.imageId === selectedImage?.id ? blockSelection.blockId : null;
+  const selectedBlock = selectedImage?.ocrResult?.blocks.find(
+    (block) => block.id === selectedBlockId,
+  );
 
   return (
     <main className="app-shell">
@@ -45,17 +56,21 @@ export function App() {
             <Card.Title>画像プレビュー</Card.Title>
           </Card.Header>
           <Card.Content>
-            {imageCount === 0 ? (
+            {!selectedImage ? (
               <ImageDropZone
                 disabled={busy}
                 onDropFiles={(files) => void dropFiles(files)}
                 onOpen={() => void openImages()}
               />
             ) : (
-              <div className="empty-preview">
-                <span>選択中: {selectedImage?.displayName ?? "なし"}</span>
-                <small>画像表示はWBS 10で実装します。</small>
-              </div>
+              <ImagePreview
+                key={selectedImage.id}
+                image={selectedImage}
+                selectedBlockId={selectedBlockId}
+                onBlockSelect={(blockId) => {
+                  setBlockSelection({ imageId: selectedImage.id, blockId });
+                }}
+              />
             )}
           </Card.Content>
         </Card>
@@ -65,7 +80,11 @@ export function App() {
             <Card.Title>OCR結果</Card.Title>
           </Card.Header>
           <Card.Content>
-            <p>認識結果はここで確認・編集できます。</p>
+            <p>
+              {selectedBlock
+                ? `選択したOCR枠: ${selectedBlock.text}`
+                : "認識結果はここで確認・編集できます。"}
+            </p>
           </Card.Content>
         </Card>
       </section>

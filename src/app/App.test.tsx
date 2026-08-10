@@ -69,6 +69,6 @@ describe("App", () => {
       </AppProviders>,
     );
 
-    expect(screen.getByText("選択中: selected.png")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "selected.pngのプレビュー" })).toBeInTheDocument();
   });
 });

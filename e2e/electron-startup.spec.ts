@@ -63,3 +63,35 @@ test("secure Electron shell starts the renderer", async () => {
     await application.close();
   }
 });
+
+test("image preview remains operable at 200 percent display scaling", async () => {
+  const application = await electron.launch({
+    args: [".", "--force-device-scale-factor=2"],
+    env: {
+      ...process.env,
+      NODE_ENV: "test",
+    },
+  });
+
+  try {
+    const page = await application.firstWindow();
+    const devicePixelRatio = await page.evaluate(() => window.devicePixelRatio);
+    expect(devicePixelRatio).toBeGreaterThanOrEqual(2);
+
+    await page.getByRole("button", { name: "画像をドロップまたは選択" }).evaluate((zone) => {
+      const binary = atob(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=",
+      );
+      const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+      const transfer = new DataTransfer();
+      transfer.items.add(new File([bytes], "display-scale.png", { type: "image/png" }));
+      zone.dispatchEvent(new DragEvent("drop", { bubbles: true, dataTransfer: transfer }));
+    });
+
+    await expect(page.getByRole("img", { name: "display-scale.pngのプレビュー" })).toBeVisible();
+    await expect(page.getByRole("toolbar", { name: "画像プレビュー操作" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "右へ90度回転" })).toBeVisible();
+  } finally {
+    await application.close();
+  }
+});
