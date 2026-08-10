@@ -50,11 +50,14 @@ export const useImageStore = create<ImageStoreState>((set, get) => ({
     const removed = state.items.find((item) => item.id === id);
     if (!removed) return;
     revokeObjectUrl(removed);
+    const removedIndex = state.items.findIndex((item) => item.id === id);
     const items = state.items.filter((item) => item.id !== id);
     set({
       items,
       selectedImageId:
-        state.selectedImageId === id ? (items[0]?.id ?? null) : state.selectedImageId,
+        state.selectedImageId === id
+          ? (items[Math.min(removedIndex, items.length - 1)]?.id ?? null)
+          : state.selectedImageId,
     });
   },
   clearImages: () => {

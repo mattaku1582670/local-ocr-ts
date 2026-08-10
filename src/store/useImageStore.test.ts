@@ -83,6 +83,17 @@ describe("useImageStore", () => {
     expect(useImageStore.getState().selectedImageId).toBe("first");
   });
 
+  it("selects the next image after removing the selected middle item", () => {
+    useImageStore
+      .getState()
+      .addImages([createImage("first"), createImage("second"), createImage("third")]);
+    useImageStore.getState().selectImage("second");
+
+    useImageStore.getState().removeImage("second");
+
+    expect(useImageStore.getState().selectedImageId).toBe("third");
+  });
+
   it("releases all object URLs when clearing images", () => {
     useImageStore.getState().addImages([createImage("first"), createImage("second")]);
 

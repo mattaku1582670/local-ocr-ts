@@ -3,11 +3,13 @@ import { appEnvironment } from "../config/environment";
 import { ImageDropZone } from "../features/image-input/ImageDropZone";
 import { Toolbar } from "../features/image-input/Toolbar";
 import { useImageInput } from "../features/image-input/useImageInput";
-import { useImageStore } from "../store/useImageStore";
+import { ImageList } from "../features/image-list/ImageList";
+import { selectSelectedImage, useImageStore } from "../store/useImageStore";
 import { useSettingsStore } from "../store/useSettingsStore";
 
 export function App() {
   const imageCount = useImageStore((state) => state.items.length);
+  const selectedImage = useImageStore(selectSelectedImage);
   const settingsStatus = useSettingsStore((state) => state.status);
   const { busy, dropFiles, notice, openImages, pasteImage } = useImageInput();
 
@@ -34,7 +36,7 @@ export function App() {
             <Card.Title>画像一覧（{imageCount}）</Card.Title>
           </Card.Header>
           <Card.Content>
-            <p>画像を追加すると、ここに一覧表示されます。</p>
+            <ImageList />
           </Card.Content>
         </Card>
 
@@ -50,7 +52,10 @@ export function App() {
                 onOpen={() => void openImages()}
               />
             ) : (
-              <div className="empty-preview">選択画像のプレビューはWBS 10で実装します。</div>
+              <div className="empty-preview">
+                <span>選択中: {selectedImage?.displayName ?? "なし"}</span>
+                <small>画像表示はWBS 10で実装します。</small>
+              </div>
             )}
           </Card.Content>
         </Card>

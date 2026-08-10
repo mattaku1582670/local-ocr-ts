@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it } from "vitest";
 import { initialImageStoreState, useImageStore } from "../store/useImageStore";
 import { initialSettingsStoreState, useSettingsStore } from "../store/useSettingsStore";
+import type { ImageItem } from "../types/image";
 import { App } from "./App";
 import { AppProviders } from "./providers";
 
@@ -45,5 +46,29 @@ describe("App", () => {
       expect(screen.getByRole("button", { name })).toBeInTheDocument();
     }
     expect(screen.getByText("設定同期: idle")).toBeInTheDocument();
+  });
+
+  it("synchronizes list selection with the preview placeholder", () => {
+    const image: ImageItem = {
+      id: "selected",
+      displayName: "selected.png",
+      sourceType: "file",
+      mimeType: "image/png",
+      width: 1,
+      height: 1,
+      rotation: 0,
+      objectUrl: "blob:selected",
+      status: "ready",
+      dirty: false,
+    };
+    useImageStore.setState({ items: [image], selectedImageId: image.id });
+
+    render(
+      <AppProviders>
+        <App />
+      </AppProviders>,
+    );
+
+    expect(screen.getByText("選択中: selected.png")).toBeInTheDocument();
   });
 });

@@ -95,6 +95,138 @@ textarea {
   align-self: flex-start;
 }
 
+.image-list-panel [data-slot="content"] {
+  min-width: 0;
+  padding-inline: 10px;
+}
+
+.image-list-container {
+  display: grid;
+  gap: 10px;
+}
+
+.image-list {
+  display: grid;
+  gap: 8px;
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+.image-list-empty {
+  margin: 0;
+  color: #657087;
+}
+
+.image-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 10px;
+  min-width: 0;
+  padding: 8px 30px 8px 8px;
+  border: 1px solid #d9e0eb;
+  border-radius: 10px;
+  color: #526077;
+  font-size: 12px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.image-card:hover {
+  border-color: #8ca0bd;
+}
+
+.image-card.is-selected {
+  border-color: #3563a9;
+  box-shadow: 0 0 0 2px rgba(53, 99, 169, 0.18);
+}
+
+.image-card:focus-visible {
+  outline: 3px solid #3563a9;
+  outline-offset: 2px;
+}
+
+.image-thumbnail {
+  width: 72px;
+  height: 72px;
+  border-radius: 7px;
+  object-fit: contain;
+  background: #eef2f8;
+}
+
+.image-card-details {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  min-width: 0;
+}
+
+.image-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.image-card-title-row strong {
+  overflow: hidden;
+  color: #243a5a;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dirty-indicator {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border-radius: 999px;
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.image-status {
+  font-weight: 700;
+}
+
+.status-success {
+  color: #166534;
+}
+
+.status-processing {
+  color: #1d4ed8;
+}
+
+.status-error,
+.image-error {
+  color: #b42318;
+}
+
+.image-error {
+  overflow-wrap: anywhere;
+}
+
+.image-remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  color: #657087;
+  background: transparent;
+  cursor: pointer;
+}
+
+.image-remove-button:hover,
+.image-remove-button:focus-visible {
+  color: #b42318;
+  background: #fee4e2;
+}
+
 .empty-preview {
   display: grid;
   min-height: 420px;
@@ -103,6 +235,12 @@ textarea {
   border-radius: 12px;
   color: #657087;
   background: #f8fafc;
+}
+
+.empty-preview span,
+.empty-preview small {
+  display: block;
+  text-align: center;
 }
 
 .image-drop-zone {
