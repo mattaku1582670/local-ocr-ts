@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PREPROCESS_PRESETS } from "./ocr";
 
 export const rendererSettingsSchema = z
   .object({
@@ -6,7 +7,7 @@ export const rendererSettingsSchema = z
     autoOcrAfterPaste: z.boolean(),
     autoCopyAfterOcr: z.boolean(),
     showOcrBoxes: z.boolean(),
-    preprocessPreset: z.enum(["none", "document", "screenshot"]),
+    preprocessPreset: z.enum(PREPROCESS_PRESETS),
     language: z.enum(["ja", "en"]),
     lowConfidenceThreshold: z.number().min(0).max(1),
     loggingEnabled: z.boolean(),

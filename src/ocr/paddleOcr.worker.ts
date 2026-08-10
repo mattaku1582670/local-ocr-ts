@@ -1,5 +1,6 @@
 import { PaddleOCR } from "@paddleocr/paddleocr-js";
 import { normalizePaddleResult } from "./normalizeResult";
+import { preprocessImage, restoreOcrResultToSource } from "./preprocess";
 import {
   serializeWorkerError,
   type OcrWorkerRequest,
@@ -44,12 +45,17 @@ async function initialize(request: Extract<OcrWorkerRequest, { type: "INITIALIZE
 }
 
 async function recognize(request: Extract<OcrWorkerRequest, { type: "RECOGNIZE" }>) {
+  let preprocessed: ReturnType<typeof preprocessImage> | null = null;
   try {
     if (!instance) throw new Error("OCR_ENGINE_NOT_INITIALIZED");
     respond({
       type: "PROGRESS",
       requestId: request.requestId,
       progress: { stage: "preprocessing", percent: 10 },
+    });
+    preprocessed = preprocessImage(request.image, {
+      preset: request.preprocessPreset,
+      ...(request.maxPixels === undefined ? {} : { maxPixels: request.maxPixels }),
     });
     respond({
       type: "PROGRESS",
@@ -62,7 +68,7 @@ async function recognize(request: Extract<OcrWorkerRequest, { type: "RECOGNIZE" 
       progress: { stage: "recognizing", percent: 60 },
     });
     const result = (
-      await instance.predict(request.image, {
+      await instance.predict(preprocessed.image, {
         textRecScoreThresh: Math.min(1, Math.max(0, request.minimumConfidence)),
       })
     ).at(0);
@@ -75,9 +81,10 @@ async function recognize(request: Extract<OcrWorkerRequest, { type: "RECOGNIZE" 
     respond({
       type: "RESULT",
       requestId: request.requestId,
-      result: normalizePaddleResult(result),
+      result: restoreOcrResultToSource(normalizePaddleResult(result), preprocessed.transform),
     });
   } finally {
+    preprocessed?.dispose();
     request.image.close();
   }
 }

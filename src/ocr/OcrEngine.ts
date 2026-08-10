@@ -1,4 +1,5 @@
 import type { Polygon } from "../types/coordinates";
+import type { PreprocessPreset } from "../types/ocr";
 import type { OcrProgressStage } from "../store/useOcrStore";
 
 export interface OcrAssetLocations {
@@ -19,6 +20,8 @@ export interface OcrProgressEvent {
 
 export interface OcrRecognizeOptions {
   minimumConfidence: number;
+  preprocessPreset?: PreprocessPreset;
+  maxPixels?: number;
   onProgress?: (progress: OcrProgressEvent) => void;
 }
 

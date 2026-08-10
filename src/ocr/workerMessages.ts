@@ -12,6 +12,8 @@ export type OcrWorkerRequest =
       requestId: number;
       image: ImageBitmap;
       minimumConfidence: number;
+      preprocessPreset: import("../types/ocr").PreprocessPreset;
+      maxPixels?: number;
     }
   | { type: "DISPOSE"; requestId: number };
 

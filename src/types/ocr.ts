@@ -1,6 +1,7 @@
 import type { Polygon } from "./coordinates";
 
-export type PreprocessPreset = "none" | "document" | "screenshot";
+export const PREPROCESS_PRESETS = ["none", "document", "screenshot"] as const;
+export type PreprocessPreset = (typeof PREPROCESS_PRESETS)[number];
 
 export interface OcrBlock {
   id: string;

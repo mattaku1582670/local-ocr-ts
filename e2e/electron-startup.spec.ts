@@ -57,6 +57,35 @@ test("secure Electron shell starts the renderer", async () => {
     expect(csp).toContain("object-src 'none'");
     expect(csp).toContain("connect-src 'self'");
 
+    const exifOrientedSize = await page.evaluate(async () => {
+      const canvas = new OffscreenCanvas(80, 40);
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("EXIF_E2E_CANVAS_CONTEXT_MISSING");
+      context.fillStyle = "white";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = "black";
+      context.fillRect(4, 4, 24, 12);
+      const source = new Uint8Array(
+        await (await canvas.convertToBlob({ type: "image/jpeg" })).arrayBuffer(),
+      );
+      const orientationSixApp1 = new Uint8Array([
+        0xff, 0xe1, 0x00, 0x22, 0x45, 0x78, 0x69, 0x66, 0x00, 0x00, 0x49, 0x49, 0x2a, 0x00, 0x08,
+        0x00, 0x00, 0x00, 0x01, 0x00, 0x12, 0x01, 0x03, 0x00, 0x01, 0x00, 0x00, 0x00, 0x06, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+      ]);
+      const jpeg = new Uint8Array(source.length + orientationSixApp1.length);
+      jpeg.set(source.slice(0, 2), 0);
+      jpeg.set(orientationSixApp1, 2);
+      jpeg.set(source.slice(2), 2 + orientationSixApp1.length);
+      const bitmap = await createImageBitmap(new Blob([jpeg], { type: "image/jpeg" }), {
+        imageOrientation: "from-image",
+      });
+      const dimensions = { width: bitmap.width, height: bitmap.height };
+      bitmap.close();
+      return dimensions;
+    });
+    expect(exifOrientedSize).toEqual({ width: 40, height: 80 });
+
     await expect(page.getByText("OCRエンジン: ready")).toBeVisible({ timeout: 25_000 });
     expect(applicationRequests).toContain("/assets/models/PP-OCRv5_mobile_det_onnx_infer.tar");
     expect(applicationRequests).toContain("/assets/models/PP-OCRv5_mobile_rec_onnx_infer.tar");
@@ -77,10 +106,12 @@ test("secure Electron shell starts the renderer", async () => {
         requestId: number;
         image: ImageBitmap;
         minimumConfidence: number;
+        preprocessPreset: "none" | "document" | "screenshot";
       }
       interface TestResult {
         rawText: string;
         blocks: { confidence: number | null }[];
+        image: { width: number; height: number };
         runtime: { requestedBackend: string; executionMode: string };
       }
       type TestResponse =
@@ -91,57 +122,73 @@ test("secure Electron shell starts the renderer", async () => {
         onmessage: ((event: MessageEvent<TestRequest>) => void) | null;
         postMessage: (message: TestResponse) => void;
       };
-      const canvas = new OffscreenCanvas(480, 120);
-      const context = canvas.getContext("2d");
-      if (!context) throw new Error("OCR_E2E_CANVAS_CONTEXT_MISSING");
-      context.fillStyle = "white";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      context.fillStyle = "black";
-      context.font = "bold 42px sans-serif";
-      context.fillText("LOCAL OCR 123", 24, 76);
+      async function recognize(
+        preprocessPreset: TestRequest["preprocessPreset"],
+        requestId: number,
+      ): Promise<TestResult> {
+        const canvas = new OffscreenCanvas(480, 120);
+        const context = canvas.getContext("2d");
+        if (!context) throw new Error("OCR_E2E_CANVAS_CONTEXT_MISSING");
+        context.fillStyle = "white";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = "black";
+        context.font = "bold 42px sans-serif";
+        context.fillText("LOCAL OCR 123", 24, 76);
 
-      const requestId = 900_001;
-      const originalPostMessage = scope.postMessage.bind(scope);
-      return new Promise<TestResult>((resolve, reject) => {
-        const timeout = setTimeout(() => {
-          scope.postMessage = originalPostMessage;
-          reject(new Error("OCR_E2E_RECOGNITION_TIMEOUT"));
-        }, 20_000);
-        scope.postMessage = (message) => {
-          originalPostMessage(message);
-          if (message.requestId !== requestId) return;
-          if (message.type === "ERROR") {
-            clearTimeout(timeout);
+        const originalPostMessage = scope.postMessage.bind(scope);
+        return new Promise<TestResult>((resolve, reject) => {
+          const timeout = setTimeout(() => {
             scope.postMessage = originalPostMessage;
-            reject(new Error(message.error.message));
-          }
-          if (message.type === "RESULT") {
-            clearTimeout(timeout);
-            scope.postMessage = originalPostMessage;
-            resolve(message.result);
-          }
-        };
-        scope.onmessage?.({
-          data: {
-            type: "RECOGNIZE",
-            requestId,
-            image: canvas.transferToImageBitmap(),
-            minimumConfidence: 0,
-          },
-        } as MessageEvent<TestRequest>);
+            reject(new Error("OCR_E2E_RECOGNITION_TIMEOUT"));
+          }, 20_000);
+          scope.postMessage = (message) => {
+            originalPostMessage(message);
+            if (message.requestId !== requestId) return;
+            if (message.type === "ERROR") {
+              clearTimeout(timeout);
+              scope.postMessage = originalPostMessage;
+              reject(new Error(message.error.message));
+            }
+            if (message.type === "RESULT") {
+              clearTimeout(timeout);
+              scope.postMessage = originalPostMessage;
+              resolve(message.result);
+            }
+          };
+          scope.onmessage?.({
+            data: {
+              type: "RECOGNIZE",
+              requestId,
+              image: canvas.transferToImageBitmap(),
+              minimumConfidence: 0,
+              preprocessPreset,
+            },
+          } as MessageEvent<TestRequest>);
+        });
+      }
+
+      return {
+        none: await recognize("none", 900_001),
+        document: await recognize("document", 900_002),
+        screenshot: await recognize("screenshot", 900_003),
+      };
+    });
+    for (const result of Object.values(liveOcrResult)) {
+      expect(result.rawText.toUpperCase()).toContain("LOCAL OCR");
+      expect(result.blocks.length).toBeGreaterThan(0);
+      expect(
+        result.blocks.every(
+          (block) => block.confidence === null || (block.confidence >= 0 && block.confidence <= 1),
+        ),
+      ).toBe(true);
+      expect(result.image).toEqual({ width: 480, height: 120 });
+      expect(result.runtime).toMatchObject({
+        requestedBackend: "wasm",
+        executionMode: "worker",
       });
-    });
-    expect(liveOcrResult.rawText).toContain("LOCAL OCR");
-    expect(liveOcrResult.blocks.length).toBeGreaterThan(0);
-    expect(
-      liveOcrResult.blocks.every(
-        (block) => block.confidence === null || (block.confidence >= 0 && block.confidence <= 1),
-      ),
-    ).toBe(true);
-    expect(liveOcrResult.runtime).toMatchObject({
-      requestedBackend: "wasm",
-      executionMode: "worker",
-    });
+    }
+    expect(externalRequests).toEqual([]);
+    expect(pageErrors).toEqual([]);
 
     const settingsRoundTrip = await page.evaluate(async () => {
       type SettingsValue = { autoOcrAfterPaste: boolean } & Record<string, unknown>;

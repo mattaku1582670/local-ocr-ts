@@ -97,18 +97,26 @@ describe("PaddleOcrEngine", () => {
   });
 
   it("transfers recognition work and forwards progress", async () => {
-    const { engine } = engineFixture();
+    const { engine, workers } = engineFixture();
     const onProgress = vi.fn();
     await engine.initialize(initOptions);
 
     const result = await engine.recognize({} as ImageBitmap, {
       minimumConfidence: 0.5,
+      preprocessPreset: "document",
+      maxPixels: 2_000_000,
       onProgress,
     });
 
     expect(result).toEqual(normalizedResult);
     expect(onProgress).toHaveBeenNthCalledWith(1, { stage: "queued", percent: 0 });
     expect(onProgress).toHaveBeenNthCalledWith(2, { stage: "recognizing", percent: 60 });
+    expect(workers[0]?.messages[1]).toMatchObject({
+      type: "RECOGNIZE",
+      minimumConfidence: 0.5,
+      preprocessPreset: "document",
+      maxPixels: 2_000_000,
+    });
   });
 
   it("terminates inference on abort and reinitializes a fresh Worker", async () => {

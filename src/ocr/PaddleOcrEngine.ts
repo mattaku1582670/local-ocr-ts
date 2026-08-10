@@ -93,6 +93,8 @@ export class PaddleOcrEngine implements OcrEngine {
           requestId,
           image,
           minimumConfidence: options.minimumConfidence,
+          preprocessPreset: options.preprocessPreset ?? "none",
+          ...(options.maxPixels === undefined ? {} : { maxPixels: options.maxPixels }),
         },
         [image],
         options.onProgress,
