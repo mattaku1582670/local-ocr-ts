@@ -17,11 +17,15 @@ test("secure Electron shell starts the renderer", async () => {
     const securityState = await page.evaluate(() => ({
       hasNodeRequire: Object.hasOwn(globalThis, "require"),
       hasDesktopApi: typeof window.desktopApi === "object",
+      hasFileApi: typeof window.desktopApi.files.openImages === "function",
+      hasClipboardApi: typeof window.desktopApi.clipboard.readImage === "function",
     }));
 
     expect(securityState).toEqual({
       hasNodeRequire: false,
       hasDesktopApi: true,
+      hasFileApi: true,
+      hasClipboardApi: true,
     });
 
     const openedWindow = await page.evaluate(() => window.open("https://example.com"));

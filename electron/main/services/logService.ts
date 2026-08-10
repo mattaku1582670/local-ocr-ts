@@ -25,7 +25,7 @@ const safeLogContextSchema = z
       .regex(/^[A-Z0-9_-]+$/)
       .max(80)
       .optional(),
-    stage: z.enum(["startup", "settings", "ocr", "shutdown"]).optional(),
+    stage: z.enum(["startup", "settings", "file", "clipboard", "ocr", "shutdown"]).optional(),
     durationMs: z.number().nonnegative().max(86_400_000).optional(),
     imageWidth: z.number().int().positive().max(100_000).optional(),
     imageHeight: z.number().int().positive().max(100_000).optional(),

@@ -15,6 +15,13 @@ export const saveTextRequestSchema = z
   })
   .strict();
 
+export const saveJsonRequestSchema = z
+  .object({
+    defaultFileName: z.string().trim().min(1).max(200),
+    value: z.unknown(),
+  })
+  .strict();
+
 export function parseIpcInput<T>(schema: z.ZodType<T>, input: unknown): T {
   return schema.parse(input);
 }
